@@ -1,0 +1,38 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LogisticRegression
+import numpy as np
+# Sample data
+data = pd.DataFrame({
+    'GDP': [1000, 2000, 3000, 4000, 5000],
+    'percentage expenditure': [100, 200, 300, 400, 500],
+    'AboveThreshold': [0, 0, 1, 1, 1]  # Binary target variable (0 or 1)
+})
+
+# Features (predictors)
+X = data[['GDP', 'percentage expenditure']]
+
+# Target variable (binary)
+y = data['AboveThreshold']
+
+# Create and fit a logistic regression model
+model = LogisticRegression()
+model.fit(X, y)
+
+# Create a scatter plot
+plt.figure(figsize=(8, 6))
+plt.scatter(data['GDP'], data['percentage expenditure'], c=data['AboveThreshold'], cmap=plt.cm.Paired, edgecolor='k')
+plt.xlabel('GDP')
+plt.ylabel('Percentage Expenditure')
+plt.title('Logistic Regression')
+plt.xlim(data['GDP'].min(), data['GDP'].max())
+plt.ylim(data['percentage expenditure'].min(), data['percentage expenditure'].max())
+
+# Decision boundary
+coef = model.coef_
+intercept = model.intercept_
+xx, yy = np.meshgrid(data['GDP'], data['percentage expenditure'])
+Z = model.decision_function(np.c_[xx.ravel(), yy.ravel()])
+Z = Z.reshape(xx.shape)
+plt.contour(xx, yy, Z, colors=['k', 'k', 'k'], linestyles=['--', '-', '--'], levels=[-1, 0, 1])
+plt.show()
