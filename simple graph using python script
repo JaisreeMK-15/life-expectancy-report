@@ -1,0 +1,6 @@
+import matplotlib.pyplot as plt 
+ax = plt.gca() 
+dataset.plot(kind='line',x='Continent',y='Population',ax=ax) 
+dataset.plot(kind='line',x='Continent',y='GDP', color='red', ax=ax) 
+dataset.plot(kind='line',x='Continent',y='percentage expenditure', color='pink', ax=ax) 
+plt.show() 
